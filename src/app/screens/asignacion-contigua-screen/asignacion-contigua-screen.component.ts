@@ -9,8 +9,8 @@ import {Archivo} from '../../models/archivo.model';
 })
 export class AsignacionContiguaScreenComponent implements OnInit {
   nombre = '';
-  inicio = 0;
-  longitud = 0;
+  inicio :any;
+  longitud  :any;
   color = '';
   
 
@@ -36,8 +36,8 @@ export class AsignacionContiguaScreenComponent implements OnInit {
     this.asignacionContiguaService.addToLista(archivo);
     this.graficarLista()
     this.nombre = '';
-    this.inicio = 0;
-    this.longitud = 0;
+    this.inicio = null;
+    this.longitud = null;
     this.color = '';
 
     console.log("Agregando" + archivo);

@@ -9,6 +9,13 @@
   overflow-x: hidden;
 }
 
+.contenedor-red-social{
+    width: auto;
+    height: auto;
+}
+.red-social{
+    width: 40px;
+}
 .section-home {
   width: 100%;
   height: 100%;

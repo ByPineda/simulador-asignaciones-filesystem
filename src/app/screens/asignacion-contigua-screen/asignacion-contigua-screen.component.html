@@ -15,8 +15,12 @@
               <b>Opciones</b>
             </div>
             <div class="list-container">
-              <div class="item" *ngFor="let item of items" [style.background-color]="item.color">
-                <div class="cart-item " >
+              <div
+                class="item"
+                *ngFor="let item of items"
+                [style.background-color]="item.color"
+              >
+                <div class="cart-item">
                   <span>
                     <b>{{ item.nombre }} </b></span
                   >
@@ -56,7 +60,7 @@
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
-                (click)="inicio = 0"
+                (click)="inicio = null"
               >
                 <mat-icon>close</mat-icon>
               </button>
@@ -70,7 +74,7 @@
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
-                (click)="longitud = 0"
+                (click)="longitud = null"
               >
                 <mat-icon>close</mat-icon>
               </button>
@@ -83,24 +87,31 @@
             />
           </div>
           <div class="important-buttons">
-            <button class="btn btn-danger" type="button" (click)="formatearDiscos()">
+            <button
+              class="btn btn-danger"
+              type="button"
+              (click)="formatearDiscos()"
+            >
               Formatear Disco
             </button>
-            <button class="btn btn-primary" type="button" (click)="addArchivo()">
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="addArchivo()"
+            >
               Ingresar un "archivo"
             </button>
-            
           </div>
         </div>
         <div class="right">
           <div class="card-hdd card shadow p-3 mb-5 bg-white rounded">
             <div class="top-text"><b>Memoria Secundaria (HDD)</b></div>
             <div class="bloques-memoria">
-              <div class="item" *ngFor="let bloque of bloques" >
-                <div class="bloque-container" >
-                  <div class="bloque"[style.background-color]="bloque.color">
+              <div class="item" *ngFor="let bloque of bloques">
+                <div class="bloque-container">
+                  <div class="bloque" [style.background-color]="bloque.color">
                     {{ bloque.i }}
-                    {{ bloque.nombre}}
+                    {{ bloque.nombre }}
                   </div>
                 </div>
               </div>

@@ -1,1 +1,112 @@
-<app-navbar-partial></app-navbar-partial>
+<section class="contigua-page">
+    <div class="wrapper">
+      <div class="section-contigua">
+        <app-navbar-partial></app-navbar-partial>
+        <div class="body-contigua">
+          <div class="left">
+            <div class="text-container">
+              <h2>Asignación Vinculada</h2>
+            </div>
+            <div class="card shadow p-3 mb-5 bg-white rounded">
+              <div class="top-text">
+                <b>Archivo</b>
+                <b>Inicio</b>
+                <b>Fin</b>
+                <b>Opciones</b>
+              </div>
+              <div class="list-container">
+                <div
+                  class="item"
+                  *ngFor="let item of items"
+                  [style.background-color]="item.color"
+                >
+                  <div class="cart-item">
+                    <span>
+                      <b>{{ item.nombre }} </b></span
+                    >
+                    <span>{{ item.inicio }}</span>
+                    <span>{{ item.longitud }} </span>
+                    <mat-icon (click)="deleteItem(item)" class="delete"
+                      >delete</mat-icon
+                    >
+                  </div>
+                  <mat-divider></mat-divider>
+                </div>
+              </div>
+            </div>
+            <div class="text-container">
+              <h5>Opciones de archivo:</h5>
+            </div>
+            <div class="input-containers">
+              <mat-form-field class="example-form-field">
+                <mat-label>Nombre</mat-label>
+                <input matInput type="text" [(ngModel)]="nombre" />
+                <button
+                  *ngIf="nombre"
+                  matSuffix
+                  mat-icon-button
+                  aria-label="Clear"
+                  (click)="nombre = ''"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+  
+              
+              <mat-form-field class="example-form-field">
+                <mat-label>Longitud</mat-label>
+                <input matInput type="number" [(ngModel)]="longitud" />
+                <button
+                  *ngIf="longitud"
+                  matSuffix
+                  mat-icon-button
+                  aria-label="Clear"
+                  (click)="longitud = null"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+              <input
+                type="color"
+                class="form-control form-control-color selector-color"
+                [(ngModel)]="color"
+                title="Choose your color"
+              />
+            </div>
+            <div class="important-buttons">
+              <button
+                class="btn btn-danger"
+                type="button"
+                (click)="formatearDiscos()"
+              >
+                Formatear Disco
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="addArchivo()"
+              >
+                Ingresar un "archivo"
+              </button>
+            </div>
+          </div>
+          <div class="right">
+            <div class="card-hdd card shadow p-3 mb-5 bg-white rounded">
+              <div class="top-text"><b>Memoria Secundaria (HDD)</b></div>
+              <div class="bloques-memoria">
+                <div class="item" *ngFor="let bloque of bloques">
+                  <div class="bloque-container">
+                    <div class="bloque" [style.background-color]="bloque.color">
+                      {{ bloque.i }}
+                      {{ bloque.nombre }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

@@ -19,23 +19,30 @@ export class AsignacionContiguaService {
     if (this.validadorService.validarNombre(this.listaArchivos, archivo)) {
       if (this.validadorService.validarInicio(this.listaArchivos, archivo)) {
         if (this.validadorService.validarColor(archivo)) {
-          if (this.listaArchivos.length == 0) {
-            archivo.id = this.counter;
-            archivo.fin = archivo.inicio + archivo.longitud - 1;
-            this.listaArchivos.push(archivo);
-            this.counter++;
-            //this.top = archivo.fin;
-          } else {
-            for(let i = archivo.inicio; i < archivo.inicio + archivo.longitud - 1; i++){
-              if(this.bloques[i].occupied == true){
-                alert('El archivo se sobrepone con otro archivo');
-                return;
+          if(this.validadorService.validarLongitud(archivo)){
+            if (this.validadorService.validarLimites(archivo)) {
+              if (this.listaArchivos.length == 0) {
+                archivo.id = this.counter;
+                archivo.fin = archivo.inicio + archivo.longitud - 1;
+                this.listaArchivos.push(archivo);
+                this.counter++;
+                //this.top = archivo.fin;
+              } else {
+                for (
+                  let i = archivo.inicio;
+                  i < archivo.inicio + archivo.longitud - 1;
+                  i++
+                ) {
+                  if (this.bloques[i].occupied == true) {
+                    alert('El archivo se sobrepone con otro archivo');
+                    return;
+                  }
+                }
+                archivo.id = this.counter;
+                archivo.fin = archivo.inicio + archivo.longitud - 1;
+                this.listaArchivos.push(archivo);
               }
             }
-            archivo.id = this.counter;
-            archivo.fin = archivo.inicio + archivo.longitud - 1;
-            this.listaArchivos.push(archivo);
-            
           }
         }
       }
