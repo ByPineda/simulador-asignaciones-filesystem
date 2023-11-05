@@ -18,5 +18,23 @@ export class NavbarPartialComponent {
     this.router.navigate(['/']);
   }
 
+  navegarContigua(){
+    this.router.navigate(['/contigua']);
+  }
   
+  navegarFat(){
+    this.router.navigate(['/fat']);
+  }
+
+  navegarIndexada(){
+    this.router.navigate(['/indexada']);
+  }
+
+  navegarInodo(){
+    this.router.navigate(['/inodo']);
+  }
+
+  navegarVinculada(){
+    this.router.navigate(['/vinculada']);
+  }
 }

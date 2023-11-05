@@ -23,8 +23,11 @@
             <p><b>Equipo:</b> NO. 8</p>
             <p><b>Desarrollador:</b> Ángel José González Pineda</p>
           </div>
-          <a href="https://github.com/LamostAce/simulador-asignaciones-filesystem" class="red-social">
-            <img src="../../../assets/logo-github.svg" alt="GitHub" >
+          <a
+            href="https://github.com/LamostAce/simulador-asignaciones-filesystem"
+            class="red-social"
+          >
+            <img src="../../../assets/logo-github.svg" alt="GitHub" />
           </a>
         </div>
         <div class="right">
@@ -32,36 +35,36 @@
             <h2>Elige un algoritmo.</h2>
             <button
               type="button"
-              class="btn btn-primary"
-              [routerLink]="['/contigua']"
+              class="btn btn-outline-primary"
+              (click)="navegarContigua()"
             >
               Contigua
             </button>
             <button
               type="button"
-              class="btn btn-primary"
-              [routerLink]="['/fat']"
+              class="btn btn-outline-primary"
+              (click)="navegarFat()"
             >
               File Allocation Table (F.A.T)
             </button>
             <button
               type="button"
-              class="btn btn-primary"
-              [routerLink]="['/indexada']"
+              class="btn btn-outline-primary"
+              (click)="navegarIndexada()"
             >
               Indexada
             </button>
             <button
               type="button"
-              class="btn btn-primary"
-              [routerLink]="['/inodo']"
+              class="btn btn-outline-primary"
+              (click)="navegarInodo()"
             >
               i-nodo
             </button>
             <button
               type="button"
-              class="btn btn-primary"
-              [routerLink]="['/vinculada']"
+              class="btn btn-outline-primary"
+              (click)="navegarVinculada()"
             >
               Vinculada
             </button>

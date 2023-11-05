@@ -4,11 +4,11 @@
         <img src="../../../assets/FCC.svg" alt="BUAP" (click)="returnHome()" class="logo" />
     </div>
     <div class="botonera">
-        <button type="button" class="btn btn-outline-primary" [routerLink]="['/contigua']">Contigua</button>
-        <button type="button" class="btn btn-outline-primary" [routerLink]="['/fat']">File Allocation Table (F.A.T)</button>
-        <button type="button" class="btn btn-outline-primary" [routerLink]="['/indexada']">Indexada</button>
-        <button type="button" class="btn btn-outline-primary" [routerLink]="['/inodo']">i-nodo</button>
-        <button type="button" class="btn btn-outline-primary" [routerLink]="['/vinculada']">Vinculada</button>
+        <button type="button" class="btn btn-outline-primary" (click)="navegarContigua()">Contigua</button>
+        <button type="button" class="btn btn-outline-primary" (click)="navegarFat()">File Allocation Table (F.A.T)</button>
+        <button type="button" class="btn btn-outline-primary" (click)="navegarIndexada()">Indexada</button>
+        <button type="button" class="btn btn-outline-primary" (click)="navegarInodo()">i-nodo</button>
+        <button type="button" class="btn btn-outline-primary" (click)="navegarVinculada()">Vinculada</button>
     </div>
   </div>
 </div>
