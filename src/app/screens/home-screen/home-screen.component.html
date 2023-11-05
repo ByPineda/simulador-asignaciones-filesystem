@@ -1,0 +1,41 @@
+
+<section class="home-page">
+  <div class="wrapper">
+    <div class="section-home">
+      <div class="header-home">
+        <div class="header-content">
+          <img src="../../../assets/FCC.svg" alt="BUAP" class="logo" />
+        </div>
+      </div>
+      <div class="body-home">
+        <div class="left">
+          <div class="title">
+            <h1>¡Bienvenido!</h1>
+            <h3>Al simulador de asignación de disco</h3>
+          </div>
+          <p class="texto">
+            Esta aplicación es un simulador de métodos de asignación de disco de
+            la materia de Sistemas Operativos II - Otoño 2023 de la Facultad de
+            Ciencias de la Computación de la Benemérita Universidad Autónoma de
+            Puebla.
+          </p>
+          <div class="team-info">
+            <p><b>Docente:</b> Dra. Carmen Cerón Garnica</p>
+            <p><b>Equipo:</b> NO. 8</p>
+            <p><b>Desarrollador:</b> Ángel José González Pineda</p>
+          </div>
+        </div>
+        <div class="right">
+          <div class="botones-asignacion">
+            <h2>Elige un algoritmo.</h2>
+            <button type="button" class="btn btn-primary" [routerLink]="['/contigua']">Contigua</button>
+        <button type="button" class="btn btn-primary" [routerLink]="['/fat']">File Allocation Table (F.A.T)</button>
+        <button type="button" class="btn btn-primary" [routerLink]="['/indexada']">Indexada</button>
+        <button type="button" class="btn btn-primary" [routerLink]="['/inodo']">i-nodo</button>
+        <button type="button" class="btn btn-primary" [routerLink]="['/vinculada']">Vinculada</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
