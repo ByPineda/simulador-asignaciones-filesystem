@@ -114,15 +114,27 @@
                   {{ bloque.nombre }}
                 </div>
                 <div class="cell">
-                  <span class="cell-text" *ngIf="bloque.occupied == false && bloque.i != 0"
+                  <span
+                    class="cell-text"
+                    *ngIf="bloque.occupied == false && bloque.i != 0"
                     >FREE</span
                   >
-                  <span class="cell-text" *ngIf=" bloque.i == 0"
-                    >SYS</span
-                  >
+                  <span class="cell-text" *ngIf="bloque.i == 0">SYS</span>
                   <span class="cell-text" *ngIf="bloque.occupied == true">{{
                     bloque.siguiente_bloque
                   }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="espacio-libre-display">
+            <div class="card shadow p-3 mb-5 bg-white rounded display-content-wrapper">
+              <div class="top-text-display">
+                <b>Bloques libres:  [ INICIO - FIN - LONGITUD ]</b>
+              </div>
+              <div class="display">
+                <div class="lista" *ngFor="let espacio of espaciosLibres">
+                  [{{ espacio.inicio }} - {{ espacio.fin }} - {{ espacio.longitud }}]
                 </div>
               </div>
             </div>

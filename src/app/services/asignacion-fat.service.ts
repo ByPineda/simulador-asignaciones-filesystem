@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ArchivoFAT } from '../models/archivo-fat.model';
 import { ValidadorService } from './validador.service';
 import { bloque } from '../models/bloque.model';
+import { EspacioLibreService } from './espacio-libre.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +10,14 @@ import { bloque } from '../models/bloque.model';
 export class AsignacionFatService {
   listaArchivos: ArchivoFAT[] = [];
   bloques = new Array<bloque>(80);
+  libres: any = [];
+
   counter = 1;
 
-  constructor(public validadorService: ValidadorService) {}
+  constructor(
+    public validadorService: ValidadorService,
+    public espacioLibreService: EspacioLibreService
+  ) {}
 
   //Métodos
   addToLista(archivo: ArchivoFAT) {
@@ -20,7 +26,7 @@ export class AsignacionFatService {
         var datosPertinentes = {
           archivo: archivo,
           datosLeft: archivo.longitud,
-          bloqueAnterior: null,
+          bloqueAnterior: 0,
         };
         //Primera iteracion para buscar un lugar libre
         datosPertinentes = this.primeraIteracion(datosPertinentes);
@@ -37,12 +43,21 @@ export class AsignacionFatService {
   primeraIteracion(datosPertinentes: any) {
     for (let index = 1; index <= this.bloques.length; index++) {
       if (this.bloques[index].occupied == false) {
+        // console.log('Bloque libre encontrado');
+        // console.log("INDICE: " + index);
+         console.log(datosPertinentes);
+        // console.log("Bloque anterior:")
+        
+        console.log("Antes:" + datosPertinentes.bloqueAnterior);
         datosPertinentes.bloqueAnterior = index;
+        console.log("Despues: "+datosPertinentes.bloqueAnterior);
         datosPertinentes.archivo.start = index;
         datosPertinentes.datosLeft--;
         this.bloques[index].nombre = datosPertinentes.archivo.nombre;
         this.bloques[index].color = datosPertinentes.archivo.color;
         this.bloques[index].occupied = true;
+        console.log("Datos pertinentes: ");
+        console.log(datosPertinentes);
         return datosPertinentes;
       }
     }
@@ -72,6 +87,7 @@ export class AsignacionFatService {
         if (datosPertinentes.datosLeft == 0) {
           this.listaArchivos.push(datosPertinentes.archivo);
           this.bloques[index].siguiente_bloque = -1;
+          console.log(this.bloques)
           return datosPertinentes;
         }
       }
@@ -79,19 +95,22 @@ export class AsignacionFatService {
   }
 
   deleteItem(item: any) {
+    //Hacemos que se limpíen los bloques que ocupaba el archivo
+    //incluyendo el ultimo bloque
     var bloqueActual = item.start;
-    var bloqueSiguiente = this.bloques[item.start].siguiente_bloque;
-    while (bloqueSiguiente != null) {
+    while (bloqueActual != -1) {
       this.bloques[bloqueActual].nombre = '';
       this.bloques[bloqueActual].color = '#FFFFFF';
       this.bloques[bloqueActual].occupied = false;
-      bloqueActual = bloqueSiguiente;
-      bloqueSiguiente = this.bloques[bloqueActual].siguiente_bloque;
+      bloqueActual = this.bloques[bloqueActual].siguiente_bloque;
     }
-    this.bloques[bloqueActual].nombre = '';
-    this.bloques[bloqueActual].color = '#FFFFFF';
-    this.bloques[bloqueActual].occupied = false;
+    //Eliminamos el archivo de la lista
     this.listaArchivos.splice(this.listaArchivos.indexOf(item), 1);
+
+    //Hacemos que se muestren los segmentos libres
+    this.llenarEspaciosLibres();
+    
+
   }
 
   obtenerBloquesLibres() {
@@ -109,6 +128,10 @@ export class AsignacionFatService {
 
   getBloques() {
     return this.bloques;
+  }
+
+  getLibres() {
+    return this.libres;
   }
 
   setBloques(bloques: bloque[]) {
@@ -135,6 +158,10 @@ export class AsignacionFatService {
         siguiente_bloque: null,
       };
     }
+  }
+  llenarEspaciosLibres() {
+    this.libres = this.espacioLibreService.obtenerEspaciosLibre(this.bloques);
+    //console.log(this.libres);
   }
 
   llenarGrafica() {
