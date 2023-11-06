@@ -68,6 +68,10 @@ export class ValidadorService {
       alert('Longitud 0');
       return false;
     } else {
+      if (archivo.longitud > 0) {
+        //console.log('Longitud positiva');
+        return true;
+      }
       //console.log('Longitud negativa');
       alert('Longitud negativa');
       return false;

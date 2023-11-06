@@ -19,6 +19,7 @@ export class AsignacionContiguaService {
     if (this.validadorService.validarNombre(this.listaArchivos, archivo)) {
       if (this.validadorService.validarInicio(this.listaArchivos, archivo)) {
         if (this.validadorService.validarColor(archivo)) {
+          //console.log(archivo);
           if(this.validadorService.validarLongitud(archivo)){
             if (this.validadorService.validarLimites(archivo)) {
               if (this.listaArchivos.length == 0) {
