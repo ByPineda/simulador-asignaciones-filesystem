@@ -1,1 +1,134 @@
-<app-navbar-partial></app-navbar-partial>
+<section class="contigua-page">
+  <div class="wrapper">
+    <div class="section-contigua">
+      <app-navbar-partial></app-navbar-partial>
+      <div class="body-contigua">
+        <div class="left">
+          <div class="text-container">
+            <h2>Asignación F.A.T</h2>
+          </div>
+          <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="top-text">
+              <b>Archivo</b>
+              <b></b>
+              <b></b>
+              <b>Opciones</b>
+            </div>
+            <div class="list-container">
+              <div
+                class="item"
+                *ngFor="let item of items"
+                [style.background-color]="item.color"
+              >
+                <div class="cart-item">
+                  <span>
+                    <b>{{ item.nombre }} </b></span
+                  >
+                  <span></span>
+                  <span></span>
+                  <mat-icon (click)="deleteItem(item)" class="delete"
+                    >delete</mat-icon
+                  >
+                </div>
+                <mat-divider></mat-divider>
+              </div>
+            </div>
+          </div>
+          <div class="text-container">
+            <h5>Opciones de archivo:</h5>
+          </div>
+          <div class="input-containers">
+            <mat-form-field class="example-form-field">
+              <mat-label>Nombre</mat-label>
+              <input matInput type="text" [(ngModel)]="nombre" />
+              <button
+                *ngIf="nombre"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="nombre = ''"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field class="example-form-field">
+              <mat-label>Longitud</mat-label>
+              <input matInput type="number" [(ngModel)]="longitud" />
+              <button
+                *ngIf="longitud"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="longitud = null"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+            <input
+              type="color"
+              class="form-control form-control-color selector-color"
+              [(ngModel)]="color"
+              title="Choose your color"
+            />
+          </div>
+          <div class="important-buttons">
+            <button
+              class="btn btn-danger"
+              type="button"
+              (click)="formatearDiscos()"
+            >
+              Formatear Disco
+            </button>
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="addArchivo()"
+            >
+              Ingresar un "archivo"
+            </button>
+          </div>
+        </div>
+        <div class="right">
+          <div class="card shadow p-3 mb-5 bg-white rounded hdd">
+            <div class="top-text">
+              <b>Memoria Secundaria (HDD)</b><b> - File Allocation Table</b>
+            </div>
+            <div class="table">
+              <div class="row">
+                <div class="cell">
+                  <b>Indice / Bloque</b>
+                </div>
+                <div class="cell">
+                  <b>Vínculo</b>
+                </div>
+              </div>
+              <div
+                class="row"
+                *ngFor="let bloque of bloques"
+                [style.background-color]="bloque.color"
+              >
+                <div class="cell">
+                  <b class="cell-text">{{ bloque.i }}</b>
+                  <p class="cell-text" *ngIf="bloque.nombre != ''">-</p>
+                  {{ bloque.nombre }}
+                </div>
+                <div class="cell">
+                  <span class="cell-text" *ngIf="bloque.occupied == false && bloque.i != 0"
+                    >FREE</span
+                  >
+                  <span class="cell-text" *ngIf=" bloque.i == 0"
+                    >SYS</span
+                  >
+                  <span class="cell-text" *ngIf="bloque.occupied == true">{{
+                    bloque.siguiente_bloque
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

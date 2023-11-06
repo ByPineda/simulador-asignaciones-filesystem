@@ -1,26 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Archivo } from '../models/archivo.model';
 import { ValidadorService } from './validador.service';
-
+import { EspacioLibreService } from './espacio-libre.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AsignacionContiguaService {
   listaArchivos: Archivo[] = [];
   bloques = new Array(80);
+  libres: any = [];
 
   counter = 1;
   top = 0;
 
-  constructor(public validadorService: ValidadorService) {}
+  constructor(
+    public validadorService: ValidadorService,
+    public espacioLibreService: EspacioLibreService
+  ) {}
 
   //Métodos
   addToLista(archivo: Archivo) {
     if (this.validadorService.validarNombre(this.listaArchivos, archivo)) {
       if (this.validadorService.validarInicio(this.listaArchivos, archivo)) {
         if (this.validadorService.validarColor(archivo)) {
-          //console.log(archivo);
-          if(this.validadorService.validarLongitud(archivo)){
+          if (this.validadorService.validarLongitud(archivo)) {
             if (this.validadorService.validarLimites(archivo)) {
               if (this.listaArchivos.length == 0) {
                 archivo.id = this.counter;
@@ -64,6 +67,10 @@ export class AsignacionContiguaService {
     return this.bloques;
   }
 
+  getLibres() {
+    return this.libres;
+  }
+
   clearListaArchivos() {
     this.listaArchivos = [];
     this.counter = 1;
@@ -85,6 +92,11 @@ export class AsignacionContiguaService {
     }
   }
 
+  llenarEspaciosLibres() {
+    this.libres = this.espacioLibreService.obtenerEspaciosLibre(this.bloques);
+    console.log(this.libres);
+  }
+  
   llenarGrafica() {
     //Limpiamos la gráfica
     this.llenarBloquesIniciales();

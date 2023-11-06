@@ -22,6 +22,8 @@ export class AsignacionContiguaScreenComponent implements OnInit {
 
   bloques = this.asignacionContiguaService.getBloques();
 
+  espaciosLibres  = this.asignacionContiguaService.getLibres();
+  
   addArchivo(){
     
     var  archivo: Archivo = {
@@ -40,10 +42,11 @@ export class AsignacionContiguaScreenComponent implements OnInit {
     this.longitud = null;
     this.color = '';
 
-    console.log("Agregando" + archivo);
+    //console.log("Agregando" + archivo);
 
-
-    console.log(this.asignacionContiguaService.getListaArchivos());
+    this.asignacionContiguaService.llenarEspaciosLibres();
+    this.espaciosLibres = this.asignacionContiguaService.getLibres();
+    //console.log(this.asignacionContiguaService.getListaArchivos());
   }
   
   deleteItem(item : any){
@@ -53,6 +56,8 @@ export class AsignacionContiguaScreenComponent implements OnInit {
     console.log(this.asignacionContiguaService.getListaArchivos());
     this.items = this.asignacionContiguaService.getListaArchivos();
     this.graficarLista();
+    this.asignacionContiguaService.llenarEspaciosLibres();
+    this.espaciosLibres = this.asignacionContiguaService.getLibres();
   }
 
   graficarLista(){
@@ -68,5 +73,7 @@ export class AsignacionContiguaScreenComponent implements OnInit {
   }
   ngOnInit(): void {
     this.asignacionContiguaService.llenarBloquesIniciales();
+    this.asignacionContiguaService.llenarEspaciosLibres();
+    this.espaciosLibres = this.asignacionContiguaService.getLibres();
   }
 }

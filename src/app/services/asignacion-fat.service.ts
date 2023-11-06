@@ -1,32 +1,26 @@
 import { Injectable } from '@angular/core';
-import { ArchivoIndexado } from '../models/archivo-indexado.model';
+import { ArchivoFAT } from '../models/archivo-fat.model';
 import { ValidadorService } from './validador.service';
-import { EspacioLibreService } from './espacio-libre.service';
-
 import { bloque } from '../models/bloque.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AsignacionIndexadaService {
-  listaArchivos: ArchivoIndexado[] = [];
+export class AsignacionFatService {
+  listaArchivos: ArchivoFAT[] = [];
   bloques = new Array<bloque>(80);
-  libres : any = []
-
   counter = 1;
 
-  constructor(
-    public validadorService: ValidadorService,
-    public espacioLibreService: EspacioLibreService
-    ) {}
+  constructor(public validadorService: ValidadorService) {}
 
   //Métodos
-  addToLista(archivo: ArchivoIndexado) {
+  addToLista(archivo: ArchivoFAT) {
     if (this.validadorService.validarNombre(this.listaArchivos, archivo)) {
       if (this.validadorService.validarColor(archivo)) {
         var datosPertinentes = {
           archivo: archivo,
           datosLeft: archivo.longitud,
+          bloqueAnterior: null,
         };
         //Primera iteracion para buscar un lugar libre
         datosPertinentes = this.primeraIteracion(datosPertinentes);
@@ -43,55 +37,61 @@ export class AsignacionIndexadaService {
   primeraIteracion(datosPertinentes: any) {
     for (let index = 1; index <= this.bloques.length; index++) {
       if (this.bloques[index].occupied == false) {
+        datosPertinentes.bloqueAnterior = index;
+        datosPertinentes.archivo.start = index;
+        datosPertinentes.datosLeft--;
         this.bloques[index].nombre = datosPertinentes.archivo.nombre;
         this.bloques[index].color = datosPertinentes.archivo.color;
         this.bloques[index].occupied = true;
-        datosPertinentes.archivo.indice = index;
         return datosPertinentes;
       }
     }
-    alert('Disco lleno');
+    alert('Discos llenos');
     return datosPertinentes;
   }
 
   segundaIteracion(datosPertinentes: any) {
     var bloquesLibresEnSistema = this.obtenerBloquesLibres();
     if (bloquesLibresEnSistema < datosPertinentes.datosLeft) {
-      alert('No hay suficiente espacio en el disco');
-      this.bloques[datosPertinentes.archivo.indice].nombre = '';
-      this.bloques[datosPertinentes.archivo.indice].color = '#FFFFFF';
-      this.bloques[datosPertinentes.archivo.indice].occupied = false;
-
+      alert('No hay suficientes bloques libres');
+      this.bloques[datosPertinentes.archivo.start].nombre = '';
+      this.bloques[datosPertinentes.archivo.start].color = '#FFFFFF';
+      this.bloques[datosPertinentes.archivo.start].occupied = false;
       return datosPertinentes;
     } else {
-      for (let index = 1; index < this.bloques.length; index++) {
+      for (let index = 1; index <= this.bloques.length; index++) {
         if (this.bloques[index].occupied == false) {
+          this.bloques[datosPertinentes.bloqueAnterior].siguiente_bloque =
+            index;
           this.bloques[index].nombre = datosPertinentes.archivo.nombre;
           this.bloques[index].color = datosPertinentes.archivo.color;
           this.bloques[index].occupied = true;
-          datosPertinentes.archivo.punteros.push(index);
+          datosPertinentes.bloqueAnterior = index;
           datosPertinentes.datosLeft--;
-          if (datosPertinentes.datosLeft == 0) {
-            this.listaArchivos.push(datosPertinentes.archivo);
-            return datosPertinentes;
-          }
+        }
+        if (datosPertinentes.datosLeft == 0) {
+          this.listaArchivos.push(datosPertinentes.archivo);
+          this.bloques[index].siguiente_bloque = -1;
+          return datosPertinentes;
         }
       }
     }
   }
 
   deleteItem(item: any) {
-    this.bloques[item.indice].nombre = '';
-    this.bloques[item.indice].color = '#FFFFFF';
-    this.bloques[item.indice].occupied = false;
-    for (let index = 0; index < item.punteros.length; index++) {
-      this.bloques[item.punteros[index]].nombre = '';
-      this.bloques[item.punteros[index]].color = '#FFFFFF';
-      this.bloques[item.punteros[index]].occupied = false;
+    var bloqueActual = item.start;
+    var bloqueSiguiente = this.bloques[item.start].siguiente_bloque;
+    while (bloqueSiguiente != null) {
+      this.bloques[bloqueActual].nombre = '';
+      this.bloques[bloqueActual].color = '#FFFFFF';
+      this.bloques[bloqueActual].occupied = false;
+      bloqueActual = bloqueSiguiente;
+      bloqueSiguiente = this.bloques[bloqueActual].siguiente_bloque;
     }
-    this.listaArchivos = this.listaArchivos.filter(
-      (archivo) => archivo.nombre !== item.nombre
-    );
+    this.bloques[bloqueActual].nombre = '';
+    this.bloques[bloqueActual].color = '#FFFFFF';
+    this.bloques[bloqueActual].occupied = false;
+    this.listaArchivos.splice(this.listaArchivos.indexOf(item), 1);
   }
 
   obtenerBloquesLibres() {
@@ -115,10 +115,6 @@ export class AsignacionIndexadaService {
     this.bloques = bloques;
   }
 
-  getLibres() {
-    return this.libres;
-  }
-  
   clearListaArchivos() {
     this.listaArchivos = [];
     this.counter = 1;
@@ -139,11 +135,6 @@ export class AsignacionIndexadaService {
         siguiente_bloque: null,
       };
     }
-  }
-
-  llenarEspaciosLibres() {
-    this.libres = this.espacioLibreService.obtenerEspaciosLibre(this.bloques);
-    console.log(this.libres);
   }
 
   llenarGrafica() {

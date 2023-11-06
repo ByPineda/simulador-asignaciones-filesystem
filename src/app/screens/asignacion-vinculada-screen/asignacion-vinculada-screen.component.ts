@@ -21,6 +21,8 @@ export class AsignacionVinculadaScreenComponent implements OnInit {
 
   bloques = this.asignacionVinculadaService.getBloques();
 
+  espaciosLibres  = this.asignacionVinculadaService.getLibres();
+
   addArchivo(){
     
     var  archivoVinculado: ArchivoVinculado = {
@@ -34,6 +36,11 @@ export class AsignacionVinculadaScreenComponent implements OnInit {
     }
     this.asignacionVinculadaService.addToLista(archivoVinculado);
     this.graficarLista()
+
+    //Llenamos los espacios libres
+    this.asignacionVinculadaService.llenarEspaciosLibres();
+    this.espaciosLibres = this.asignacionVinculadaService.getLibres();
+
     this.nombre = '';
     this.longitud = null;
     this.color = '';
@@ -45,6 +52,10 @@ export class AsignacionVinculadaScreenComponent implements OnInit {
     console.log(this.asignacionVinculadaService.getListaArchivos());
     this.items = this.asignacionVinculadaService.getListaArchivos();
     this.graficarLista();
+
+    //Llenamos los espacios libres
+    this.asignacionVinculadaService.llenarEspaciosLibres();
+    this.espaciosLibres = this.asignacionVinculadaService.getLibres();
   }
 
   graficarLista(){
@@ -61,6 +72,7 @@ export class AsignacionVinculadaScreenComponent implements OnInit {
   }
   ngOnInit(): void {
     this.asignacionVinculadaService.llenarBloquesIniciales();
-    //console.log(this.asignacionVinculadaService.getBloques());
+    this.asignacionVinculadaService.llenarEspaciosLibres();
+    this.espaciosLibres = this.asignacionVinculadaService.getLibres();
   }
 }

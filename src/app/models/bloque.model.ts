@@ -4,5 +4,5 @@ export interface bloque {
   color: string;
   i: number;
   occupied: boolean;
-  siguiente_bloque: any;
+  siguiente_bloque: any ;
 }

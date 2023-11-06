@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ArchivoVinculado } from '../models/archivo-vinculado.model';
 import { ValidadorService } from './validador.service';
+import { EspacioLibreService } from './espacio-libre.service';
+
 import { bloque } from '../models/bloque.model';
 
 @Injectable({
@@ -9,9 +11,14 @@ import { bloque } from '../models/bloque.model';
 export class AsignacionVinculadaService {
   listaArchivos: ArchivoVinculado[] = [];
   bloques = new Array<bloque>(80);
+  libres: any = [];
+
   counter = 1;
 
-  constructor(public validadorService: ValidadorService) {}
+  constructor(
+    public validadorService: ValidadorService,
+    public espacioLibreService: EspacioLibreService
+  ) {}
 
   //Métodos
   addToLista(archivo: ArchivoVinculado) {
@@ -74,7 +81,7 @@ export class AsignacionVinculadaService {
         tempDatos.archivo.fin = tempDatos.bloqueAnterior.i;
         tempDatos.archivo.siguiente_bloque = null;
         this.listaArchivos.push(tempDatos.archivo);
-       //console.log(this.listaArchivos);
+        //console.log(this.listaArchivos);
         //console.log(this.bloques);
         return tempDatos;
       }
@@ -103,10 +110,14 @@ export class AsignacionVinculadaService {
     return this.bloques;
   }
 
+  getLibres() {
+    return this.libres;
+  }
+
   clearListaArchivos() {
     this.listaArchivos = [];
     this.counter = 1;
-    this.llenarBloquesIniciales()
+    this.llenarBloquesIniciales();
     return this.listaArchivos;
   }
 
@@ -125,6 +136,11 @@ export class AsignacionVinculadaService {
     }
   }
 
+  llenarEspaciosLibres() {
+    this.libres = this.espacioLibreService.obtenerEspaciosLibre(this.bloques);
+    console.log(this.libres);
+  }
+  
   llenarGrafica() {
     //Limpiamos la gráfica
     this.llenarBloquesIniciales();
