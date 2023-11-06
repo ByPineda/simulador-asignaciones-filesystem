@@ -62,6 +62,6 @@ export class AsignacionIndexadaScreenComponent {
     this.asignacionIndexadaService.llenarBloquesIniciales();
     this.asignacionIndexadaService.llenarEspaciosLibres();
     this.bloques = this.asignacionIndexadaService.getBloques();
-    //console.log(this.asignacionIndexadaService.getBloques());
+    this.espaciosLibre = this.asignacionIndexadaService.getLibres();
   }
 }
